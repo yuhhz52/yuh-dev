@@ -1,0 +1,30 @@
+# --- Node / JS ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Env / secrets ---
+.env
+.env.*
+!.env.example
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- NestJS ---
+dist/
+coverage/
+
+# --- React (CRA) ---
+client/build/
+client/coverage/
+
+# --- Tooling caches ---
+.cache/
+client/node_modules/.cache/
+

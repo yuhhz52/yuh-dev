@@ -1,0 +1,71 @@
+{{! Extend the base layout }}
+{{! If using express-handlebars layout convention, this will be used as the main view }}
+
+<main id="home" class="hero">
+  <div class="hero-content">
+    <p class="hero-badge">Available for new projects</p>
+    <h1 class="hero-title">
+      FULLSTACK
+      <span class="hero-title-outline">DEVELOPER</span>
+    </h1>
+    <p class="hero-subtitle">
+      Crafting immersive digital experiences through clean code and modern aesthetics. Specialized in high-performance web applications.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-outline">Contact Me</a>
+    </div>
+  </div>
+</main>
+
+<section id="about" class="section">
+  <div class="section-inner">
+    <h2 class="section-title">About Me</h2>
+    <p class="section-text">
+      I’m a fullstack developer focused on building fast, accessible, and beautiful web applications. I love working with modern technologies like
+      React, TypeScript, and NestJS to ship impactful products.
+    </p>
+  </div>
+</section>
+
+<section id="projects" class="section section-alt">
+  <div class="section-inner">
+    <h2 class="section-title">Selected Projects</h2>
+    <div class="cards">
+      <article class="card">
+        <h3 class="card-title">Project One</h3>
+        <p class="card-text">High-performance landing page for a SaaS product with modern animations and responsive design.</p>
+        <p class="card-meta">React · TypeScript · Tailwind</p>
+      </article>
+      <article class="card">
+        <h3 class="card-title">Project Two</h3>
+        <p class="card-text">Fullstack dashboard for analytics with real-time data and custom visualizations.</p>
+        <p class="card-meta">NestJS · PostgreSQL · React</p>
+      </article>
+      <article class="card">
+        <h3 class="card-title">Project Three</h3>
+        <p class="card-text">Portfolio and blog platform with a clean editorial layout and SEO-friendly structure.</p>
+        <p class="card-meta">Next.js · MDX</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <div class="section-inner">
+    <h2 class="section-title">Let’s Work Together</h2>
+    <p class="section-text">
+      Have an idea or opportunity in mind? Reach out and let’s build something great together.
+    </p>
+    <form class="contact-form">
+      <div class="form-grid">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+      </div>
+      <textarea name="message" rows="4" placeholder="Tell me about your project" required></textarea>
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+  </div>
+</section>
+
+
