@@ -40,18 +40,18 @@ const Skills: React.FC<SkillsProps> = ({
   skillCategories = [
     {
       icon: defaultSkillIcon,
-      title: 'Frontend',
-      skills: ['React & Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion / GSAP'],
+      title: 'Language',
+      skills: ['Java','Nest.js', 'TypeScript'],
     },
     {
       icon: defaultSkillIcon,
       title: 'Backend',
-      skills: ['Node.js & Express', 'PostgreSQL / MongoDB', 'RESTful APIs & GraphQL', 'Redis Caching'],
+      skills: ['Java', 'Spring Boot', 'PostgreSQL / MongoDB', 'RESTful APIs & GraphQL', 'Redis Caching'],
     },
     {
       icon: defaultSkillIcon,
       title: 'Tools',
-      skills: ['Git & GitHub', 'Docker & Kubernetes', 'AWS / Vercel', 'CI/CD Pipelines'],
+      skills: ['Git & GitHub','Gitlab', 'Docker', 'Render / Vercel', 'CI/CD Pipelines'],
     },
   ],
 }) => {

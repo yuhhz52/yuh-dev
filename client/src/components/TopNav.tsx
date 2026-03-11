@@ -7,8 +7,8 @@ interface TopNavProps {
 }
 
 const TopNav: React.FC<TopNavProps> = ({
-  brandName = 'DEV',
-  title = '# Full Stack Developer',
+  brandName = 'HUY',
+  title = '# Backend Developer',
   contactText = 'Contact',
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,7 +23,7 @@ const TopNav: React.FC<TopNavProps> = ({
               <span className="text-white font-bold text-lg">.</span>
             </div>
             <span className="text-xl font-black font-display tracking-tighter">
-              {brandName}<span className="text-agency-accent">.</span>PORTFOLIO
+              {brandName}<span className="text-agency-accent">.</span>NT
             </span>
           </div>
 

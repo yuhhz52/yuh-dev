@@ -6,7 +6,7 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({
-  brandName = 'DEV.PORTFOLIO',
+  brandName = 'HUY',
   year = new Date().getFullYear(),
 }) => {
   return (
@@ -17,7 +17,7 @@ const Footer: React.FC<FooterProps> = ({
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-xl font-black font-display tracking-tighter">
-            DEV<span className="text-agency-accent">.</span>PORTFOLIO
+          {brandName}<span className="text-agency-accent">.</span>PORTFOLIO
           </div>
           <div className="text-gray-500 text-sm">
             © {year} Built with Passion. All Rights Reserved.

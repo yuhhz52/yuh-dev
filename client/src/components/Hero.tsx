@@ -8,7 +8,7 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({
   badge = 'Available for new projects',
-  title = 'FULLSTACK DEVELOPER',
+  title = 'BACKEND DEVELOPER',
   description = 'Crafting immersive digital experiences through clean code and modern aesthetics. Specialized in high-performance web applications.',
 }) => {
   return (
@@ -26,7 +26,7 @@ const Hero: React.FC<HeroProps> = ({
           </span>
           
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-black font-display leading-[0.9] mb-8 tracking-tighter">
-            FULLSTACK <br />
+            BACKEND <br />
             <span className="text-outline">DEVELOPER</span>
           </h1>
           

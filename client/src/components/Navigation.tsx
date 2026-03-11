@@ -1,9 +1,12 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 
+const TOTAL_TICKS = 80;
+
 const Navigation: React.FC = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [activeTicks, setActiveTicks] = useState<number[]>([]);
   const navRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const menuItemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
   const sections = useMemo(
@@ -46,7 +49,7 @@ const Navigation: React.FC = () => {
   // Calculate which ticks should light up based on active menu item position
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!navRef.current) return;
+      if (!navRef.current || !menuRef.current) return;
 
       const sectionIndex = sections.indexOf(activeSection);
       if (sectionIndex === -1) return;
@@ -54,25 +57,26 @@ const Navigation: React.FC = () => {
       const menuItem = menuItemsRef.current[sectionIndex];
       if (!menuItem) return;
 
-      const navBar = navRef.current;
-      const navRect = navBar.getBoundingClientRect();
+      const menuRect = menuRef.current.getBoundingClientRect();
       const itemRect = menuItem.getBoundingClientRect();
 
-      // Calculate menu item position within navbar
-      const itemTopInNav = itemRect.top - navRect.top;
-      const itemBottomInNav = itemRect.bottom - navRect.top;
-      const itemMidpointInNav = (itemTopInNav + itemBottomInNav) / 2;
+      // Calculate menu item position within the MENU area (không tính logo / social)
+      const itemTopInMenu = itemRect.top - menuRect.top;
+      const itemBottomInMenu = itemRect.bottom - menuRect.top;
+      const itemMidpointInMenu = (itemTopInMenu + itemBottomInMenu) / 2;
 
-      // Map to tick indices (each tick is 15px apart, 80 ticks total)
-      const padding = 15; // Light up ticks around the menu item
-      const startPixel = Math.max(0, itemMidpointInNav - padding);
-      const endPixel = Math.min(80 * 15, itemMidpointInNav + padding + 15);
+      // Đổi ra tỉ lệ 0–1 trong chiều cao menu để không bị lệch trên các màn hình khác nhau
+      const relativeMid = itemMidpointInMenu / menuRect.height;
+      const paddingRatio = 0.06; // tầm 6% chiều cao menu quanh item
 
-      const startTick = Math.floor(startPixel / 15);
-      const endTick = Math.ceil(endPixel / 15);
+      const startRatio = Math.max(0, relativeMid - paddingRatio);
+      const endRatio = Math.min(1, relativeMid + paddingRatio);
+
+      const startTick = Math.floor(startRatio * TOTAL_TICKS);
+      const endTick = Math.ceil(endRatio * TOTAL_TICKS);
 
       const newActiveTicks: number[] = [];
-      for (let i = startTick; i < endTick && i < 80; i++) {
+      for (let i = startTick; i < endTick && i < TOTAL_TICKS; i++) {
         newActiveTicks.push(i);
       }
 
@@ -266,8 +270,8 @@ const Navigation: React.FC = () => {
           <span className="text-agency-accent">.</span>
         </div>
 
-        {/* Menu Items */}
-        <div className="ruler-menu">
+        {/* Menu Items + Ruler Ticks (gắn đúng theo vùng menu) */}
+        <div className="ruler-menu" ref={menuRef}>
           {navItems.map((item, index) => (
             <a
               key={item.label}
@@ -283,6 +287,17 @@ const Navigation: React.FC = () => {
               {item.label}
             </a>
           ))}
+
+          {/* Ruler Ticks - đặt trong vùng menu để trùng item */}
+          <div className="ruler-ticks" id="ruler-ticks-container">
+            {Array.from({ length: TOTAL_TICKS }).map((_, i) => (
+              <div
+                key={i}
+                className={`tick ${i % 4 === 0 ? 'large' : ''} ${activeTicks.includes(i) ? 'active' : ''}`}
+                style={{ top: `${(i / TOTAL_TICKS) * 100}%` }}
+              ></div>
+            ))}
+          </div>
         </div>
 
         {/* Social Icons - Footer */}
@@ -357,7 +372,7 @@ const Navigation: React.FC = () => {
             </svg>
           </a>
 
-          {/* Email */}
+        {/* Email */}
           <a
             href="mailto:hello@developer.com"
             className="social-icon"
@@ -377,17 +392,6 @@ const Navigation: React.FC = () => {
               />
             </svg>
           </a>
-        </div>
-
-        {/* Ruler Ticks - Decorative */}
-        <div className="ruler-ticks" id="ruler-ticks-container">
-          {Array.from({ length: 80 }).map((_, i) => (
-            <div
-              key={i}
-              className={`tick ${i % 4 === 0 ? 'large' : ''} ${activeTicks.includes(i) ? 'active' : ''}`}
-              style={{ top: `${i * 15}px` }}
-            ></div>
-          ))}
         </div>
 
         {/* Ruler Line */}

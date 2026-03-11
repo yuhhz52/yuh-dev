@@ -14,11 +14,11 @@ interface AboutProps {
 
 const About: React.FC<AboutProps> = ({
   title = 'BLENDING STRATEGY WITH TECHNOLOGY.',
-  description = 'I am a fullstack web developer with a passion for building scalable, user-centric web applications. My approach combines the rigor of backend architecture with the finesse of modern frontend design. I believe that every line of code should contribute to a seamless user experience.',
-  imageUrl = 'https://lh3.googleusercontent.com/aida-public/AB6AXuDe60iuyG0e-9GhLJnl6RyHricY06Gjct44bSR4BcJoRGuAn-dmB1nazABvWxPiRlxyYgBkeNiIffA4npn7sDTo_PmUfY7Pl-GfXhSHHDrf3vv9jsjy_tj4O1KpcKr-BSikUUboCu6LlcTiucjNQ028RBqoVyRCaVBn3_GCyUHAaR6Phn2Lg4miWS2353rhTbOTwrQWI6hxdKOxaEOKB_x2tjMwPye20rOniZrVJFwrb-6-H3Q3l_l46Od22Y_6-7Hrt16oEWtWPbM',
+  description = 'I am a backend developer with a passion for building scalable, high-performance systems and robust server-side architectures. My approach focuses on designing clean APIs, optimizing database performance, and ensuring the reliability and security of the core infrastructure. I believe that every line of code should contribute to a stable, efficient, and maintainable system.',
+  imageUrl = `${process.env.PUBLIC_URL}/avatar.jpg`,
   stats = [
-    { value: '5+', label: 'Years Experience' },
-    { value: '50+', label: 'Projects Delivered' },
+    { value: '1+', label: 'Years Experience' },
+    { value: '5+', label: 'Projects Delivered' },
   ],
 }) => {
   return (
@@ -27,7 +27,7 @@ const About: React.FC<AboutProps> = ({
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Profile Image */}
           <div className="relative group" data-purpose="profile-image-container">
-            <div className="aspect-square bg-agency-gray overflow-hidden border border-white/5 grayscale hover:grayscale-0 transition-all duration-700">
+            <div className="aspect-square overflow-hidden border border-white/5">
               <img
                 alt="Developer Portrait"
                 className="w-full h-full object-cover"
@@ -35,7 +35,7 @@ const About: React.FC<AboutProps> = ({
               />
             </div>
             <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-agency-accent flex items-center justify-center p-8">
-              <p className="font-display font-black text-4xl leading-tight">EST. 2019</p>
+              <p className="font-display font-black text-4xl leading-tight">EST. 2025</p>
             </div>
           </div>
 
