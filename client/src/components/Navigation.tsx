@@ -6,8 +6,6 @@ const Navigation: React.FC = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [activeTicks, setActiveTicks] = useState<number[]>([]);
   const navRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const menuItemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
   const sections = useMemo(
     () => ['home', 'about', 'skills', 'projects', 'experience', 'contact'],
@@ -46,44 +44,21 @@ const Navigation: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Calculate which ticks should light up based on active menu item position
+  // Calculate which ticks should light up based on grid position (6 equal rows)
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!navRef.current || !menuRef.current) return;
+    const sectionIndex = sections.indexOf(activeSection);
+    if (sectionIndex === -1) return;
 
-      const sectionIndex = sections.indexOf(activeSection);
-      if (sectionIndex === -1) return;
+    const ticksPerSection = TOTAL_TICKS / sections.length;
+    const startTick = Math.round(sectionIndex * ticksPerSection);
+    const endTick = Math.round((sectionIndex + 1) * ticksPerSection);
 
-      const menuItem = menuItemsRef.current[sectionIndex];
-      if (!menuItem) return;
+    const newActiveTicks: number[] = [];
+    for (let i = startTick; i < endTick && i < TOTAL_TICKS; i++) {
+      newActiveTicks.push(i);
+    }
 
-      const menuRect = menuRef.current.getBoundingClientRect();
-      const itemRect = menuItem.getBoundingClientRect();
-
-      // Calculate menu item position within the MENU area (không tính logo / social)
-      const itemTopInMenu = itemRect.top - menuRect.top;
-      const itemBottomInMenu = itemRect.bottom - menuRect.top;
-      const itemMidpointInMenu = (itemTopInMenu + itemBottomInMenu) / 2;
-
-      // Đổi ra tỉ lệ 0–1 trong chiều cao menu để không bị lệch trên các màn hình khác nhau
-      const relativeMid = itemMidpointInMenu / menuRect.height;
-      const paddingRatio = 0.06; // tầm 6% chiều cao menu quanh item
-
-      const startRatio = Math.max(0, relativeMid - paddingRatio);
-      const endRatio = Math.min(1, relativeMid + paddingRatio);
-
-      const startTick = Math.floor(startRatio * TOTAL_TICKS);
-      const endTick = Math.ceil(endRatio * TOTAL_TICKS);
-
-      const newActiveTicks: number[] = [];
-      for (let i = startTick; i < endTick && i < TOTAL_TICKS; i++) {
-        newActiveTicks.push(i);
-      }
-
-      setActiveTicks(newActiveTicks);
-    }, 50);
-
-    return () => clearTimeout(timer);
+    setActiveTicks(newActiveTicks);
   }, [activeSection, sections]);
 
   const navItems = [
@@ -132,7 +107,7 @@ const Navigation: React.FC = () => {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 40px 0;
+          padding: 24px 0;
           border-right: 1px solid rgba(255, 77, 0, 0.2);
           background: #0a0a0a;
         }
@@ -161,35 +136,36 @@ const Navigation: React.FC = () => {
           height: 1px;
           background: rgba(255, 77, 0, 0.15);
           width: 8px;
-          transition: all 0.3s ease;
+          transition: all 0.4s cubic-bezier(.22,1,.36,1);
         }
 
         .tick.large {
-          width: 15px;
+          width: 18px;
           background: rgba(255, 77, 0, 0.25);
         }
 
         .tick.active {
           background: #ff4d00;
           width: 15px;
-          box-shadow: 0 0 15px rgba(255, 77, 0, 0.7), 0 0 30px rgba(255, 77, 0, 0.4), 0 0 45px rgba(255, 77, 0, 0.2);
+          box-shadow: 0 0 15px rgba(255, 77, 0, 0.7), 0 0 30px rgba(255, 77, 0, 0.4);
         }
 
         .tick.active.large {
           background: #ff6d1f;
-          box-shadow: 0 0 18px rgba(255, 77, 0, 0.9), 0 0 35px rgba(255, 77, 0, 0.6), 0 0 50px rgba(255, 77, 0, 0.3);
+          box-shadow: 0 0 18px rgba(255, 77, 0, 0.9), 0 0 35px rgba(255, 77, 0, 0.6);
         }
 
         .ruler-menu {
           position: relative;
           display: grid;
-          grid-template-rows: repeat(6, 1fr); /* 6 ô đều nhau cho 6 mục menu */
+          grid-template-rows: repeat(6, 1fr);
           justify-items: center;
-          align-items: center; /* mỗi item nằm giữa ô của nó */
+          align-items: center;
           z-index: 10;
           width: 100%;
-          flex: 1; /* chiếm toàn bộ chiều cao còn lại giữa logo và social icons */
-          padding: 1.5rem 0;
+          flex: 1;
+          padding: 0;
+          margin: 0;
         }
 
         .ruler-item {
@@ -200,28 +176,35 @@ const Navigation: React.FC = () => {
           font-weight: 800;
           letter-spacing: 0.2em;
           color: rgba(255, 255, 255, 0.4);
-          transition: all 0.3s ease;
+          transition: all 0.4s cubic-bezier(.22,1,.36,1);
           position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 10px 0;
+          padding: 0;
           cursor: pointer;
           width: 100%;
+          height: 100%;
+          text-decoration: none;
         }
 
-        .ruler-item:hover,
+        .ruler-item:hover {
+          color: rgba(255, 77, 0, 0.7);
+          text-shadow: 0 0 6px rgba(255, 77, 0, 0.3);
+          transform: rotate(180deg) scale(1.1);
+        }
+
         .ruler-item.active {
           color: #ff4d00;
-          text-shadow: 0 0 8px rgba(255, 77, 0, 0.6);
+          text-shadow: 0 0 10px rgba(255, 77, 0, 0.6);
+          transform: rotate(180deg) scale(1.15);
         }
 
         .ruler-logo {
-          text-xl;
+          font-size: 1.25rem;
           font-weight: 900;
-          font-display;
-          tracking-tighter;
-          margin-bottom: 3rem;
+          letter-spacing: -0.05em;
+          margin-bottom: 1.5rem;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -270,14 +253,11 @@ const Navigation: React.FC = () => {
           <span className="text-agency-accent">.</span>
         </div>
 
-        {/* Menu Items + Ruler Ticks (gắn đúng theo vùng menu) */}
-        <div className="ruler-menu" ref={menuRef}>
-          {navItems.map((item, index) => (
+        {/* Menu Items + Ruler Ticks */}
+        <div className="ruler-menu">
+          {navItems.map((item) => (
             <a
               key={item.label}
-              ref={(el) => {
-                menuItemsRef.current[index] = el;
-              }}
               href={item.href}
               onClick={(event) =>
                 handleMenuClick(event, item.href.substring(1))
@@ -288,8 +268,8 @@ const Navigation: React.FC = () => {
             </a>
           ))}
 
-          {/* Ruler Ticks - đặt trong vùng menu để trùng item */}
-          <div className="ruler-ticks" id="ruler-ticks-container">
+          {/* Ruler Ticks */}
+          <div className="ruler-ticks">
             {Array.from({ length: TOTAL_TICKS }).map((_, i) => (
               <div
                 key={i}
@@ -301,33 +281,10 @@ const Navigation: React.FC = () => {
         </div>
 
         {/* Social Icons - Footer */}
-        <div className="mt-auto flex flex-col items-center space-y-4 pb-8">
-          {/* Twitter/X */}
-          <a
-            href="https://twitter.com"
-            className="social-icon"
-            title="Twitter"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <svg
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 9-7 9-7"
-              />
-            </svg>
-          </a>
-
+        <div className="flex flex-col items-center space-y-3 pb-6 pt-4">
           {/* LinkedIn */}
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/nguy%E1%BB%85n-th%C3%A0nh-huy-934348352/"
             className="social-icon"
             title="LinkedIn"
             target="_blank"
@@ -351,7 +308,7 @@ const Navigation: React.FC = () => {
 
           {/* GitHub */}
           <a
-            href="https://github.com"
+            href="https://github.com/yuhhz52"
             className="social-icon"
             title="GitHub"
             target="_blank"
@@ -374,7 +331,7 @@ const Navigation: React.FC = () => {
 
         {/* Email */}
           <a
-            href="mailto:hello@developer.com"
+            href="mailto:huy.nt0910@gmail.com"
             className="social-icon"
             title="Email"
           >

@@ -2,6 +2,7 @@
 export { default as Navigation } from './Navigation';
 export { default as TopNav } from './TopNav';
 export { default as Hero } from './Hero';
+export { default as Marquee } from './Marquee';
 export { default as About } from './About';
 export { default as Skills } from './SkillCard';
 export { default as Projects } from './ProjectCard';
